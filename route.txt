@@ -1,0 +1,32 @@
+/auth
+    /register [post]
+    /login [post]
+    /resetPassword [get]
+
+/customer [admin]
+    /      =>get all customers [get]
+    /:id   => get a customer by id [get]
+    /      =>add a cutomer to list of cutomers [post]
+    /:id   =>update a customer [put]
+    /:id   =>delete a acustomer [delete]
+
+/genres
+    /    => return all genres [get]
+    /:id => return a genre with id [get]
+    /    => add a new genre [post]
+    /:id => update a genre with id [put]
+    /:id => detele a genre with id [delete]
+
+/movies
+    /    => return all movies [get]
+    /:id => return a movie with id [get]
+    /    => add a new movie [post,admin]
+    /:id => update a movie with id [put,admin]
+    /:id => detele a movie with id [delete,admin]
+
+/rentals
+    /    => return all rentals [get]
+    /? => return a rental with movieName or with customerName [get,admin]
+    /    => add a new rental [post,admin]
+    /:id => update a rental with id [put,admin]
+    /:id => detele a rental with id [delete,admin]
