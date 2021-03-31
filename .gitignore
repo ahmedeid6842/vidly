@@ -2,3 +2,4 @@ node_modules/
 route.txt
 featurechanges.txt
 currentchanges.txt
+models/user.js
