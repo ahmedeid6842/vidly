@@ -10,6 +10,8 @@ const rental = require("./routes/rental");
 
 const app = express();
 
+app.use(express.json());
+
 app.use("/auth", auth)
 app.use("/customer", customer)
 app.use("/genres", genre)
@@ -23,6 +25,6 @@ app.use((req, res) => {
 
 const PORT = process.env.PORT || 3000
 mongoose.connect("mongodb://localhost/vidly")
-    .then(() => app.listen(PORT, console.log("connected successfully")))
+    .then(() => app.listen(PORT, console.log(`connected successfully ... port : ${PORT}`)))
     .catch((err) => console.log(err.message));
 
