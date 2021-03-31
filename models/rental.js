@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const joi = require("joi");
 joi.ObjectId = require("joi-objectid")(joi);
+const moment = require("moment")
 
 const rentalSchema = new mongoose.Schema({
     customer: {
@@ -29,7 +30,6 @@ const rentalSchema = new mongoose.Schema({
     },
     rentalFee: {
         type: Number,
-        required: true
     }
 })
 
@@ -46,10 +46,9 @@ function validateRental(rental) {
         customer: joi.ObjectId().required(),
         movie: {
             title: joi.string().min(3).max(255).required(),
-            dailyRentalRate: joi.Number().required(),
+            dailyRentalRate: joi.number().required(),
         },
         dateOut: joi.date(),
-        rentalFee: joi.number().required()
     })
 
     return schema.validate(rental);

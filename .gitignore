@@ -1,5 +1,7 @@
 node_modules/
 route.txt
 featurechanges.txt
-
+currentchanges.txt
 diagram.drawio 
+models/customer.js
+models/movie.js
