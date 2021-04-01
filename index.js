@@ -14,7 +14,7 @@ const app = express();
 app.use(express.json());
 
 app.use("/auth", auth)
-app.use("/customer", customer)
+app.use("/customer", isAdmin, customer)
 app.use("/genres", genre)
 app.use("/movies", movie)
 app.use("/rentals", rental)
