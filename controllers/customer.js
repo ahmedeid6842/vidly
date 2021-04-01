@@ -3,9 +3,6 @@ const _ = require("lodash");
 const { Customer, validateCustomer } = require("../models/customer");
 
 module.exports.getCustomers = async (req, res) => {
-
-    
-
     let customer = await Customer.find();
     if (customer.length === 0) return res.status(404).send("no customers found")
     return res.status(200).send(customer);
