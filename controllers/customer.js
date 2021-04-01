@@ -1,5 +1,5 @@
 module.exports.getCustomers = (req, res) => {
-
+    
 }
 
 module.exports.getCustomer = (req, res) => {

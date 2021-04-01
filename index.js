@@ -6,15 +6,16 @@ const customer = require("./routes/customer");
 const genre = require("./routes/genre");
 const movie = require("./routes/movie");
 const rental = require("./routes/rental");
-
+const { isAdmin } = require("./middleware/isAdmin");
+const { isAuth } = require("./middleware/isAuth");
 
 const app = express();
 
 app.use(express.json());
 
 app.use("/auth", auth)
-app.use("/customer", customer)
-app.use("/genres", genre)
+app.use("/customer", [isAuth, isAdmin], customer)
+app.use("/genres", isAuth, genre)
 app.use("/movies", movie)
 app.use("/rentals", rental)
 
