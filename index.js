@@ -10,6 +10,7 @@ const rental = require("./routes/rental");
 
 const app = express();
 
+
 app.use(express.json());
 
 app.use("/auth", auth)
