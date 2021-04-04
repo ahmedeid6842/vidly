@@ -6,6 +6,8 @@ const customer = require("./routes/customer");
 const genre = require("./routes/genre");
 const movie = require("./routes/movie");
 const rental = require("./routes/rental");
+
+const db = require("./middleware/db");
 const { isAdmin } = require("./middleware/isAdmin");
 const { isAuth } = require("./middleware/isAuth");
 
@@ -26,7 +28,10 @@ app.use((req, res) => {
 
 
 const PORT = process.env.PORT || 3000
-mongoose.connect("mongodb://localhost/vidly")
-    .then(() => app.listen(PORT, console.log(`connected successfully ... port : ${PORT}`)))
-    .catch((err) => console.log(err.message));
-
+db.initDB((err, db) => {
+    if (err) {
+        console.log(err);
+    } else {
+        app.listen(PORT, console.log(`connected on port ${PORT}`));
+    }
+})
