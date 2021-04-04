@@ -1,30 +1,53 @@
+const { ObjectId } = require("mongodb")
 
+const _db = require("../helper/db").getDB;
 module.exports.getGenres = async (req, res) => {
+    const genres = await _db()
+        .db()
+        .collection("genres")
+        .find()
+        .toArray()
     if (genres.length === 0) return res.send("no genres found");
 
     return res.send(genres);
 }
 
 module.exports.getGenre = async (req, res) => {
+    const genre = await _db()
+        .db()
+        .collection("genres")
+        .findOne({ _id: ObjectId(req.params.id) })
     if (!genre) return res.send("no genre with that id");
 
     return res.send(genre);
 }
 
 module.exports.addGenre = async (req, res) => {
-    const { error } = validateGenre(req.body);
-    if (error) return res.status(402).send(error.message);
+    //validate genres
 
+    const { insertedId } = await _db()
+        .db()
+        .collection("genres")
+        .insertOne(req.body)
 
     res.send({
-        genre,
+        _id: insertedId,
         msg: "added succesfully"
     });
 }
 
 module.exports.updateGenre = async (req, res) => {
     try {
-       //update genre with id
+        //update genre with id
+
+        const { value: genre } = await _db()
+            .db()
+            .collection("genres")
+            .findOneAndUpdate(
+                { _id: ObjectId(req.params.id) },
+                { $set: req.body },
+                { returnOriginal: false }
+            )
         if (!genre) return res.send("no genre with that id")
 
         return res.send({
@@ -39,6 +62,14 @@ module.exports.updateGenre = async (req, res) => {
 
 module.exports.deleteGenre = async (req, res) => {
     try {
+        
+        const { value: genre } = await _db()
+            .db()
+            .collection("genres")
+            .findOneAndDelete(
+                { _id: ObjectId(req.params.id) },
+                { returnOriginal: false }
+            )
         if (!genre) return res.send("no genre with that id")
 
         return res.send({
