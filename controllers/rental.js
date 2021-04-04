@@ -1,8 +1,5 @@
 const mongoose = require("mongoose");
 
-const { Rental, validateRental } = require("../models/rental");
-const { Customer } = require("../models/customer")
-const { Movie } = require("../models/movie");
 
 module.exports.getRentals = async (req, res) => {
     if (rentals.length === 0) return res.send("no rentals found");

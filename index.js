@@ -1,5 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const cookieParser = require("cookie-parser");
 
 const auth = require("./routes/auth");
 const customer = require("./routes/customer");
@@ -7,17 +8,20 @@ const genre = require("./routes/genre");
 const movie = require("./routes/movie");
 const rental = require("./routes/rental");
 
-const db = require("./middleware/db");
+const db = require("./helper/db");
 const { isAdmin } = require("./middleware/isAdmin");
 const { isAuth } = require("./middleware/isAuth");
 
+
 const app = express();
 
+require("dotenv/config");
 
 app.use(express.json());
+app.use(cookieParser());
 
 app.use("/auth", auth)
-app.use("/customer", isAdmin, customer)
+app.use("/customer", customer)
 app.use("/genres", genre)
 app.use("/movies", movie)
 app.use("/rentals", rental)

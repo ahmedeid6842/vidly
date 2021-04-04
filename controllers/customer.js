@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 const _ = require("lodash");
-const { Customer, validateCustomer } = require("../models/customer");
 
 module.exports.getCustomers = async (req, res) => {
     if (customer.length === 0) return res.status(404).send("no customers found")

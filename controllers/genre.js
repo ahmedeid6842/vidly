@@ -1,4 +1,3 @@
-const { Genre, validateGenre } = require("../models/genre");
 
 module.exports.getGenres = async (req, res) => {
     if (genres.length === 0) return res.send("no genres found");

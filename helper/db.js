@@ -19,7 +19,7 @@ const initDB = callback => {
         })
 }
 const getDB = () => {
-    if (!db) {
+    if (!_db) {
         throw Error("DataBase not intialized");
     }
     return _db;
