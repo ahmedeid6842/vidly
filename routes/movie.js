@@ -7,8 +7,8 @@ const { isAdmin } = require("../middleware/isAdmin");
 
 router.get("/", movieControllers.getMovies)
 router.get("/:id", isAuth, movieControllers.getMovie)
-router.post("/", [isAuth, isAdmin], movieControllers.addMovie)
-router.put("/:id", [isAuth, isAdmin], movieControllers.updateMovie)
-router.delete("/:id", [isAuth, isAdmin], movieControllers.deleteMovie)
+router.post("/",  movieControllers.addMovie)
+router.put("/:id", movieControllers.updateMovie)
+router.delete("/:id",movieControllers.deleteMovie)
 
 module.exports = router;
