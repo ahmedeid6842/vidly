@@ -5,12 +5,13 @@ const genresControllers = require("../controllers/genre")
 
 const { isAdmin } = require("../middleware/isAdmin")
 const { isAuth } = require("../middleware/isAuth")
+const { genreValidator } = require("../validators/genre")
 
 router.get("/", genresControllers.getGenres)
 router.get("/:id", isAuth, genresControllers.getGenre)
-router.post("/", [isAuth, isAdmin], genresControllers.addGenre)
-router.put("/:id", [isAuth, isAdmin], genresControllers.updateGenre)
-router.delete("/:id", [isAuth, isAdmin], genresControllers.deleteGenre)
+router.post("/", genreValidator, genresControllers.addGenre)
+router.put("/:id", genreValidator, genresControllers.updateGenre)
+router.delete("/:id", genresControllers.deleteGenre)
 
 
 module.exports = router;

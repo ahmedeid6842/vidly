@@ -1,5 +1,5 @@
 const { ObjectId } = require("mongodb")
-
+const { validationResult } = require("express-validator")
 const _db = require("../helper/db").getDB;
 module.exports.getGenres = async (req, res) => {
     const genres = await _db()
@@ -24,6 +24,8 @@ module.exports.getGenre = async (req, res) => {
 
 module.exports.addGenre = async (req, res) => {
     //validate genres
+    const errors = validationResult(req);
+    if (errors) return res.status(402).send(errors.array())
 
     const { insertedId } = await _db()
         .db()
@@ -37,9 +39,12 @@ module.exports.addGenre = async (req, res) => {
 }
 
 module.exports.updateGenre = async (req, res) => {
+    //validate
+    const errors = validationResult(req);
+    if (errors) return res.status(402).send(errors.array())
+    
     try {
         //update genre with id
-
         const { value: genre } = await _db()
             .db()
             .collection("genres")
@@ -62,7 +67,7 @@ module.exports.updateGenre = async (req, res) => {
 
 module.exports.deleteGenre = async (req, res) => {
     try {
-        
+
         const { value: genre } = await _db()
             .db()
             .collection("genres")

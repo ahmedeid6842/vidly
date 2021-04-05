@@ -1,4 +1,5 @@
 const { ObjectId } = require("mongodb")
+const { validationResult } = require("express-validator")
 
 const _db = require("../helper/db").getDB;
 
@@ -25,6 +26,8 @@ module.exports.getMovie = async (req, res) => {
 
 module.exports.addMovie = async (req, res) => {
     //validation on req.body
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) return res.status(402).send(errors.array());
 
     const { insertedId } = await _db()
         .db()
@@ -39,6 +42,8 @@ module.exports.addMovie = async (req, res) => {
 }
 
 module.exports.updateMovie = async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) return res.status(402).send(errors.array());
 
     const { value: movie } = await _db()
         .db()

@@ -1,5 +1,5 @@
 const { ObjectId } = require("mongodb")
-
+const { validationResult } = require("express-validator")
 const _db = require("../helper/db").getDB
 const { rentalPrice } = require("../helper/rentalPrice")
 
@@ -95,7 +95,10 @@ module.exports.getRental = async (req, res) => {
 module.exports.addRental = async (req, res) => {
     let { movie, customer, dailyRentalRate } = req.body;
     customer = ObjectId(customer);
+    
     //validate Rentals
+    const error = validationResult(req);
+    if (!error.isEmpty()) return res.status(402).send(error.array())
 
     //check if customer exists
     const _customer = await _db()

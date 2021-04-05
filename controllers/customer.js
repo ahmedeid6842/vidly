@@ -1,7 +1,8 @@
 const { ObjectId } = require("mongodb")
 const _ = require("lodash");
 
-const _db = require("../helper/db").getDB
+const _db = require("../helper/db").getDB;
+const { validationResult } = require("express-validator");
 
 module.exports.getCustomers = async (req, res) => {
     const customers = await _db()
@@ -27,6 +28,8 @@ module.exports.getCustomer = async (req, res) => {
 
 module.exports.addCutomer = async (req, res) => {
     // validate a customer
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) return res.status(402).send(errors.array())
 
     try {
         const user = await _db()
@@ -35,7 +38,7 @@ module.exports.addCutomer = async (req, res) => {
             .insertOne(req.body);
 
         return res.status(201).send({
-            _id:_.pick(user, ["insertedId"]),
+            _id: _.pick(user, ["insertedId"]),
             msg: "added successfully"
         })
     } catch (err) {
@@ -45,6 +48,9 @@ module.exports.addCutomer = async (req, res) => {
 }
 
 module.exports.updateCutomer = async (req, res) => {
+    //validate request
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) return res.status(402).send(errors.array())
 
     try {
         //update a customer
