@@ -45,20 +45,20 @@ module.exports.login = async (req, res) => {
     //validate login RequestBody
     const error = validationResult(req);
     if (!error.isEmpty()) return res.status(402).send(error.array())
-    
-    const { email, password } = req.body;
 
+    const { email, password } = req.body;
 
     //check if email exsits
     const { password: hashedPassword, _id } = await _db() //destructure "password" and rename it to "hashedPassword"
         .db()
         .collection("users")
-        .findOne({ email })
+        .findOne({ email }) //in this seatch we will use "IXSCAN" indexScan because we create an index on email attribute
+
     if (!_id) return res.send("email not Found or password Wrong");
 
     //compare password
     let isMatch = await bcrypt.compare(password, hashedPassword);
-    if (!isMatch) return res.status(404).send("email not Found or password Wrong");
+    if (!isMatch) return res.send("email not Found or password Wrong");
 
     //generate tokens
     const accesstoken = await generateAccessToken(_id);

@@ -8,7 +8,7 @@ const genre = require("./routes/genre");
 const movie = require("./routes/movie");
 const rental = require("./routes/rental");
 
-const db = require("./helper/db");
+const _db = require("./helper/db");
 const { isAdmin } = require("./middleware/isAdmin");
 const { isAuth } = require("./middleware/isAuth");
 
@@ -32,10 +32,13 @@ app.use((req, res) => {
 
 
 const PORT = process.env.PORT || 3000
-db.initDB((err, db) => {
+_db.initDB((err, db) => {
     if (err) {
         console.log(err);
     } else {
+        // _db.initConfiguration() //this function is used at the first time of running otherwise it's useless
         app.listen(PORT, console.log(`connected on port ${PORT}`));
     }
 })
+
+
