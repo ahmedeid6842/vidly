@@ -1,11 +1,14 @@
 const bcrypt = require("bcrypt");
 const { ObjectId } = require("mongodb")
+const { validationResult } = require("express-validator")
 
 const _db = require("../helper/db").getDB;
 const { generateAccessToken, generateRefreshToken, sendRefreshToken } = require("../helper/tokens")
 
 module.exports.register = async (req, res) => {
     //validation
+    const error = validationResult(req)
+    if (!error.isEmpty()) return res.status(402).send(error.array())
 
     try {
         //hash the password
@@ -40,7 +43,11 @@ module.exports.register = async (req, res) => {
 
 module.exports.login = async (req, res) => {
     //validate login RequestBody
+    const error = validationResult(req);
+    if (!error.isEmpty()) return res.status(402).send(error.array())
+    
     const { email, password } = req.body;
+
 
     //check if email exsits
     const { password: hashedPassword, _id } = await _db() //destructure "password" and rename it to "hashedPassword"
