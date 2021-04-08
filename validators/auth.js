@@ -1,46 +1,41 @@
-const { body, matchedData } = require("express-validator");
-const _db = require("../helper/db").getDB;
+const joi = require("joi");
+const passwordComplexity = require("joi-password-complexity")
 
-module.exports.signupValidator = [
-    body("email")
-        .isEmail().withMessage("must be a valid email")
-        .normalizeEmail()
-        //lower case:to lower case
-        .escape()
-        .trim()
-        .custom(email => {
-            return _db()
-                .db()
-                .collection("users")
-                .findOne({ email })
-                .then((user) => {
-                    if (user) return Promise.reject("email is already exists")
-                })
-        })
-    , body("password")
-        .isLength({ max: 16 })
-        .matches(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/).withMessage("8~16 characters, at least one letter and one number")
-    , body("name")
-        .isString().withMessage("name must be a string")
-        .isLength({ min: 5, max: 255 })
+const complexityOptions = { //change the default option of joi-password-complexity
+    min: 5,
+    max: 30,
+    lowerCase: 1,
+    upperCase: 1,
+    numeric: 1,
+    symbol: 1,
+    requirementCount: 4 // number of complexity that are requirement 
+    // "aPassword123!" a valid password for those options
+}
 
-]
+function validateSignup(user) {
 
-module.exports.loginValidator = [
-    body('email')
-        .isEmail().withMessage("invalid email address")
-        .normalizeEmail()
-        .trim()
-        .escape()
-    , body('password')
-        .isLength({ min: 8, max: 16 }).withMessage("8~16 length")
-        .isString().withMessage("must be a string")
-]
+    const schema = joi.object({
+        name: joi.string().min(5).max(255).required(),
+        email: joi.string().min(5).max(100).required(),
+        password: passwordComplexity(complexityOptions).required() // apply joi-password-complexity on password attribute
+    })
 
+    return schema.validate(user)
+}
 
-    // .isMobilePhone
-    // .isMongoId
-    // isEthereumAddress
+function validateLogin(user) {
+    const schema = joi.object({
+        email: joi.string().min(5).max(100).required(),
+        password: passwordComplexity(complexityOptions).required() // apply joi-password-complexity on password attribute
+    })
+    return schema.validate(user);
+}
+
+module.exports = {
+    validateSignup,
+    validateLogin
+}
+
 
 
 
