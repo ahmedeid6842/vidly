@@ -73,8 +73,5 @@ module.exports = {
                 token
             }
         }
-        async register(_, args, { _db }) {
-
-        }
     }
 }
