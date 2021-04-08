@@ -6,18 +6,19 @@ const authResolvers = require("./auth");
 
 
 module.exports = {
+
     //TODO: adding Resolvers
     Query: {
-        
+
         ...customerResolvers.Query,
-        // ...movieResolvers.Query,
+        ...movieResolvers.Query,
         ...genreResolvers.Query,
         // ...rentalResolvers.Query
     },
     Mutation: {
 
         ...customerResolvers.Mutation,
-        // ...movieResolvers.Mutation,
+        ...movieResolvers.Mutation,
         ...genreResolvers.Mutation,
         // ...rentalResolvers.Mutation,
         ...authResolvers.Mutation

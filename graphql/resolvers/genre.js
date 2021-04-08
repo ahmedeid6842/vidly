@@ -5,7 +5,7 @@ const { validateGenre } = require("../../validators/genre")
 
 module.exports = {
     Query: {
-        //TODO: adding genre's Query resolvers
+        //adding genre's Query resolvers
         async getGenre(parent, { genreId }, { _db }) {
             const genre = await _db()
                 .db()
@@ -27,7 +27,7 @@ module.exports = {
         }
     },
     Mutation: {
-        //TODO: adding genre's Mutation resolvers
+        //adding genre's Mutation resolvers
         async createGenre(parent, { data }, { _db }) {
             //validate created Genre
             const { error } = validateGenre(data)
@@ -47,7 +47,7 @@ module.exports = {
         },
         async updateGenre(parent, { genreId, data }, { _db }) {
             // TODO:validate updated genre
-            // TODO: check if there are gener with that id ,,, if yes update it ,,, if no throw error 
+            //check if there are gener with that id ,,, if yes update it ,,, if no throw error 
             const { value: genre } = await _db()
                 .db()
                 .collection("genres")

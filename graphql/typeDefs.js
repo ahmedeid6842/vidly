@@ -1,6 +1,6 @@
 const gql = require("graphql-tag");
 
-module.exports = gql`
+module.exports = gql` 
     type Query{
         Intial:String!
         
@@ -77,7 +77,7 @@ module.exports = gql`
         title: String!
         numberInStock: Int!
         dailyRentalRate: Int
-        genre: [Genre!]
+        genre: [String!]
     }
 
     type Rental{
@@ -130,7 +130,7 @@ module.exports = gql`
         title:String!
         numberInStock:Int
         dailyRental:Int
-        genre:createCustomerInput
+        genre:[String!]
     }
 
     input updateMovieInput{
