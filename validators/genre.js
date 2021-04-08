@@ -1,9 +1,13 @@
-const { body } = require("express-validator")
+const joi = require("joi")
 
-module.exports.genreValidator = [
-    body("name")
-        .isString().withMessage("must be a string")
-        .isAlpha().withMessage("contain only characters")
-        .isLength({ min: 5, max: 255 })
-]
+function validateGenre(genre) {
+    const schema = joi.object({
+        name: joi.string().min(3).max(255).required()
+    })
 
+    return schema.validate(genre);
+}
+
+module.exports = {
+    validateGenre
+}

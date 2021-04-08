@@ -18,7 +18,7 @@ module.exports = {
 
         ...customerResolvers.Mutation,
         // ...movieResolvers.Mutation,
-        // ...genreResolvers.Mutation,
+        ...genreResolvers.Mutation,
         // ...rentalResolvers.Mutation,
         ...authResolvers.Mutation
     }
