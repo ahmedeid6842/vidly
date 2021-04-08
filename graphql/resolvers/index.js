@@ -21,7 +21,7 @@ module.exports = {
     Mutation: {
         Intial() {
             return "hellow world"
-        }
+        },
 
         // ...customerResolvers.Mutation,
         // ...movieResolvers.Mutation,
