@@ -8,22 +8,15 @@ const authResolvers = require("./auth");
 module.exports = {
     //TODO: adding Resolvers
     Query: {
-        //TEST: resolvers can't be empty
-        Intial() {
-            return "hello workd"
-        }
-
-        // ...customerResolvers.Query,
+        
+        ...customerResolvers.Query,
         // ...movieResolvers.Query,
         // ...genreResolvers.Query,
         // ...rentalResolvers.Query
     },
     Mutation: {
-        Intial() {
-            return "hellow world"
-        },
 
-        // ...customerResolvers.Mutation,
+        ...customerResolvers.Mutation,
         // ...movieResolvers.Mutation,
         // ...genreResolvers.Mutation,
         // ...rentalResolvers.Mutation,

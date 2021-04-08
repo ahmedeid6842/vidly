@@ -1,28 +1,16 @@
-const { body } = require("express-validator");
+const joi = require("joi");
+joi.ObjectId = require("joi-objectid")(joi)
 
-module.exports.customerValidator = [
-    body("name")
-        .isString().withMessage("must be a string")
-        .isAlpha().withMessage("must contain only characters")
-        .isLength({ min: 5, max: 255 })
-    , body("isGold")
-        .isBoolean()
-        .optional({ nullable: true }) // to make this field optional to insert or not 
-    , body("phone")
-        .isMobilePhone("ar-EG").withMessage("must be an egypt mobile number")
-        .optional({ nullable: true })
-]
+function validateCustomer(customer) {
 
-module.exports.customerUpdateValidator = [
-    body("name")
-        .isString().withMessage("must be a string")
-        .isAlpha().withMessage("contain only characters")
-        .isLength({ min: 5, max: 255 })
-        .optional({nullable:true})
-    , body("isGold")
-        .isBoolean()
-        .optional({ nullable: true }) // to make this field optional to insert or not 
-    , body("phone")
-        .isMobilePhone("ar-EG").withMessage("must be a valid mobile phone")
-        .optional({ nullable: true })
-]
+    const schema = joi.object({
+        name: joi.string().min(5).max(255).required(),
+        isGold: joi.boolean(),
+        phone: joi.string().min(11).max(11)
+    })
+    return schema.validate(customer);
+}
+
+module.exports = {
+    validateCustomer
+}

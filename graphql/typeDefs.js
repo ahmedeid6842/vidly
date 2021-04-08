@@ -61,7 +61,6 @@ module.exports = gql`
         # _id , name , email , isGold , phone
         _id:ID!
         name:String!
-        email:String!
         isGold:Boolean!
         phone:String
     }
@@ -110,7 +109,7 @@ module.exports = gql`
     input createCustomerInput {
         name:String!
         isGold:Boolean!
-        phone:String!   
+        phone:String
     }
 
     input updateCustomerInput{
