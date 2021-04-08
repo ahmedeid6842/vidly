@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
-
+require("dotenv/config"
+)
 const generateAccessToken = (_id, isAdmin) => {
     return new Promise((resolve) => {
         const token = jwt.sign(
