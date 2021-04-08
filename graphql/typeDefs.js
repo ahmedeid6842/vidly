@@ -45,7 +45,7 @@ module.exports = gql`
         createRental(data:createRentalInput!): Rental!
         updateRental(rentalId:ID!,data:updateRentalInput): Rental!
         deleteRental(rentalId:ID!): String!
-        rentalBack(rentalId:ID!):Rental
+        rentalBack(rentalId:ID!,movieTitle:String!):Rental
     }
 
 
@@ -83,8 +83,8 @@ module.exports = gql`
     type Rental{
         # _id , Customer , Movie {title,dailyRentalRate} , dateOut , dateReturned , rentalFee
         _id: ID!
-        Customer: Customer!
-        Movie: rentalMovie!
+        customer: Customer!
+        movie: rentalMovie!
         dateOut: String!
         dateReturned: String
         rentalFee: Int
@@ -92,7 +92,7 @@ module.exports = gql`
 
     type rentalMovie{
         title: String!
-        dailyRentalRate: Int!
+        dailyRentalRate: Float
     }
 
     input registerInput {
@@ -140,9 +140,10 @@ module.exports = gql`
     }
 
     input createRentalInput{
-        Customer:ID!
-        Movie:ID!
+        customer:ID!
+        movie:String!
         dateOut:String
+        dailyRentalRate:String
     }
 
     input updateRentalInput{
