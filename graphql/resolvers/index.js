@@ -11,7 +11,7 @@ module.exports = {
         
         ...customerResolvers.Query,
         // ...movieResolvers.Query,
-        // ...genreResolvers.Query,
+        ...genreResolvers.Query,
         // ...rentalResolvers.Query
     },
     Mutation: {
