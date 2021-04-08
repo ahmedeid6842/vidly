@@ -4,3 +4,5 @@ featurechanges.txt
 currentchanges.txt
 diagram.drawio 
 models/
+controllers/
+routes/
