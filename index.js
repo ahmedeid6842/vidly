@@ -2,6 +2,7 @@ const { ApolloServer } = require("apollo-server");
 const gql = require('graphql-tag')
 
 const db = require("./helper/db")
+const _db = require("./helper/db").getDB
 const typeDefs = require("./graphql/typeDefs");
 const resolvers = require("./graphql/resolvers/index");
 
@@ -10,7 +11,11 @@ require("dotenv/config");
 
 const server = new ApolloServer({
     typeDefs,
-    resolvers
+    resolvers,
+    context: ({ req }) => ({
+        req,
+        _db
+    })
 })
 
 

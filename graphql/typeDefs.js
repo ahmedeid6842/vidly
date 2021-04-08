@@ -3,107 +3,150 @@ const gql = require("graphql-tag");
 module.exports = gql`
     type Query{
         Intial:String!
+        
+        # get customer&genre&movie&rental
+        getCustomer(customerId:ID!): Customer!
+        getCustomers: [Customer!]
 
-        # TODO: get customer&genre&movie&rental
-        # getCustomer
-        # getCustomers
+        getGenre(genreId:ID!): Genre!
+        getGenres: [Genre!]
 
-        # getGenre
-        # getGenres
+        getMovie(movieTitle:String!): Movie!
+        getMovies:[Movie!]
 
-        # getMovie
-        # getMovies
-
-        # getRental
-        # getRentals
+        getRental(rentalId:ID):Rental!
+        getRentals:[Rental!]
     }
 
     type Mutation{
         Intial:String!
+        # adding login&register 
+        login(data:loginInput): User!
+        register(data:registerInput): User!
 
-        # TODO: adding login&register 
-        # login
-        # register
+        # add-update-delete customer
+        createCustomer(data:createCustomerInput!): Customer!
+        updateCustomer(customerId:ID!,data:updateCustomerInput!): Customer!
+        deleteCustomer(customerId:ID!): Customer!
 
-        # TODO: add-update-delete customer
-        # createCustomer
-        # updateCustomer
-        # deleteCustomer
+        # add-update-delete genres
+        createGenre(data:createGenreInput!): Genre!
+        updateGenre(genreId:ID!,data:updateGenreInput!): Genre!
+        deleteGenre(genreID:ID!): Genre!
 
-        # TODO: add-update-delete genres
-        # createGenre
-        # updateGenre
-        # deleteGenre
+        # add-update-delete movies && Review or rating
+        createMovie(data:createMovieInput!):Movie!
+        updateMovie(movieId:ID!,data:updateMovieInput!):Movie
+        deleteMovie(movieId:ID!):String!
+        addReview(movieId:ID!,reviewBody:String!):Movie!
+        addRating(movieId:ID!,rating:Int!):Movie!
 
-        # TODO: add-update-delete movies && Review or rating
-        # createMovie
-        # updateMovie
-        # deleteMovie
-        # addReview
-        # addRating
-
-        # TODO: add-update-delete rental && rentalBack
-        # createRental
-        # updateRental
-        # deleteRental
-        # rentalBack
+        # add-update-delete rental && rentalBack
+        createRental(data:createRentalInput!): Rental!
+        updateRental(rentalId:ID!,data:updateRentalInput): Rental!
+        deleteRental(rentalId:ID!): String!
+        rentalBack(rentalId:ID!):Rental
     }
 
 
-    #TODO:uncomment this block of code 
-    # type Customer{
-    #     # _id , name , email , isGold , phone
-    # }
-
-    # type Genre{
-    #     # _id , name
-    # }
-
-    # type Movie{
-    #     # _id , title , numberInStock , dailyRentalsRate , genre
-    # }
-
-    # type Rental{
-    #     # _id , Customer , Movie {title,dailyRentalRate} , dateOut , dateReturned , rentalFee
-    # }
-
-    # input registerInput {
+    #uncomment this block of code 
+    type User{
+        _id:ID!
+        name:String!
+        email:String!
+        token:String!
+    }
     
-    # }
+    type Customer{
+        # _id , name , email , isGold , phone
+        _id:ID!
+        name:String!
+        email:String!
+        isGold:Boolean!
+        phone:String
+    }
 
-    # input loginInput {
-    
-    # }
+    type Genre{
+        # _id , name
+        _id:ID!
+        name:String!
+    }
 
-    # input createCustomerInput {
-        
-    # }
+    type Movie{
+        # _id , title , numberInStock , dailyRentalsRate , genre
+        _id: ID!
+        title: String!
+        numberInStock: Int!
+        dailyRentalRate: Int
+        genre: [Genre!]
+    }
 
-    # input updateCustomerInput{
+    type Rental{
+        # _id , Customer , Movie {title,dailyRentalRate} , dateOut , dateReturned , rentalFee
+        _id: ID!
+        Customer: Customer!
+        Movie: rentalMovie!
+        dateOut: String!
+        dateReturned: String
+        rentalFee: Int
+    }
 
-    # }
+    type rentalMovie{
+        title: String!
+        dailyRentalRate: Int!
+    }
 
-    # input createGenreInput{
+    input registerInput {
+        name:String!
+        email:String!
+        password:String!
+    }
 
-    # }
+    input loginInput {
+        email:String!
+        password:String!
+    }
 
-    # input updateGenreInput{
+    input createCustomerInput {
+        name:String!
+        isGold:Boolean!
+        phone:String!   
+    }
 
-    # }
+    input updateCustomerInput{
+        name:String
+        isGold:Boolean
+        phone:String
+    }
 
-    # input createMovieInput{
+    input createGenreInput{
+        name:String!
+    }
 
-    # }
+    input updateGenreInput{
+        name:String
+    }
 
-    # input updateMovieInput{
+    input createMovieInput{
+        title:String!
+        numberInStock:Int
+        dailyRental:Int
+        genre:createCustomerInput
+    }
 
-    # }
+    input updateMovieInput{
+        title:String
+        numberInStock:Int
+        dailyRental:Int
+    }
 
-    # input createRentalInput{
+    input createRentalInput{
+        Customer:ID!
+        Movie:ID!
+        dateOut:String
+    }
 
-    # }
-
-    # input updateRentalInput{
-        
-    # }
+    input updateRentalInput{
+        dateOut:String!
+    }
 `
