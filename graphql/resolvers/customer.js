@@ -2,6 +2,9 @@ const { UserInputError } = require("apollo-server-errors");
 const { ObjectId } = require("mongodb");
 const { validateCustomer } = require("../../validators/customer")
 
+const isAuth = require("../../utils/isAuth");
+const isAdmin = require("../../utils/isAdmin");
+
 module.exports = {
     Query: {
         //adding customer's Query resolvers
@@ -27,7 +30,7 @@ module.exports = {
     },
     Mutation: {
         //adding customer's Mutation resolvers
-        async createCustomer(parent, { data }, { _db }) {
+        async createCustomer(parent, { data }, { _db, req }) {
             //validate customer input
             const { error } = validateCustomer(data);
             if (error) throw new UserInputError("validattion error", {

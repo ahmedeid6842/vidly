@@ -6,7 +6,7 @@ const { generateAccessToken } = require("../../helper/tokens")
 module.exports = {
     Mutation: {
         //adding authentication's Mutation resolvers
-        
+
         async register(_, { data }, { _db }) {
             //validate args
             const { error } = validateSignup(data)
@@ -64,8 +64,8 @@ module.exports = {
             })
 
             //genreateToken
-            const token = await generateAccessToken(user._id);
-            
+            const token = await generateAccessToken(user._id, user.isAdmin);
+
             //send token,email,name,_id 
             delete user.password
             return {
