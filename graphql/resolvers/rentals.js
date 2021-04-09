@@ -1,10 +1,12 @@
 const { validateRental } = require("../../validators/rentals");
 const { rentalPrice } = require("../../helper/rentalPrice")
+const isAuth = require("../../utils/isAuth");
+const isAdmin = require("../../utils/isAdmin");
 
 const { ObjectId } = require("mongodb")
 module.exports = {
     Query: {
-        //TODO: adding rental's Query resolvers
+        //adding rental's Query resolvers
         async getRentals(parent, { rentalId }, { _db }) {
             const rentals = await _db()
                 .db()
@@ -25,8 +27,11 @@ module.exports = {
         }
     },
     Mutation: {
-        //TODO: adding rental's Mutation resolvers
-        async createRental(parent, { data }, { _db }) {
+        //adding rental's Mutation resolvers
+        async createRental(parent, { data }, { _db, req }) {
+            const decoded = isAuth(req)
+            isAdmin(decoded);
+
             let { movie, customer, dailyRentalRate } = data;
             customer = ObjectId(customer);
 
@@ -65,7 +70,7 @@ module.exports = {
                     movie: { title: movie, dailyRentalRate },
                     dateOut: new Date()
                 })
-                
+
             return {
                 _id: insertedId,
                 ...ops[0]
@@ -76,7 +81,10 @@ module.exports = {
         // TODO:updateRental
 
 
-        async deleteRental(parent, { rentalId }, { _db }) {
+        async deleteRental(parent, { rentalId }, { _db, req }) {
+            const decoded = isAuth(req)
+            isAdmin(decoded);
+
             let rental = await _db()
                 .db()
                 .collection("rentals")
@@ -99,7 +107,9 @@ module.exports = {
             return `rental {id:${rentalId}} deleted `
         },
 
-        async rentalBack(parent, { rentalId, movieTitle }, { _db }) {
+        async rentalBack(parent, { rentalId, movieTitle }, { _db, req }) {
+            const decoded = isAuth(req)
+            isAdmin(decoded);
 
             //check if rental exists
             let rental = await _db()

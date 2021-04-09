@@ -1,11 +1,16 @@
 const { UserInputError } = require("apollo-server-errors");
 const { ObjectId } = require("bson");
+
 const { validteMovie } = require("../../validators/movies")
+const isAuth = require("../../utils/isAuth")
+const isAdmin = require("../../utils/isAdmin")
 
 module.exports = {
     Query: {
         //adding movie's Query resolvers
-        async getMovie(parent, { movieTitle }, { _db }) {
+        async getMovie(parent, { movieTitle }, { _db, req }) {
+            const decoded = isAuth(req)
+
             const movie = await _db()
                 .db()
                 .collection("movies")
@@ -27,8 +32,11 @@ module.exports = {
         }
     },
     Mutation: {
-        //TODO: adding movie's Mutation resolvers
-        async createMovie(parent, { data }, { _db }) {
+        //adding movie's Mutation resolvers
+        async createMovie(parent, { data }, { _db, req }) {
+            const decoded = isAuth(req)
+            isAdmin(decoded);
+
             const { error } = validteMovie(data);
             if (error) throw new UserInputError("validation Error", {
                 errors: error.message
@@ -45,8 +53,12 @@ module.exports = {
             }
         },
 
-        async updateMovie(parent, { movieId, data }, { _db }) {
+        async updateMovie(parent, { movieId, data }, { _db, req }) {
+            const decoded = isAuth(req)
+            isAdmin(decoded);
+
             // TODO: validate updatedMovie
+            
             const { value: movie } = await _db()
                 .db()
                 .collection("movies")
@@ -59,7 +71,10 @@ module.exports = {
 
             return movie
         },
-        async deleteMovie(parent, { movieId }, { _db }) {
+        async deleteMovie(parent, { movieId }, { _db, req }) {
+            const decoded = isAuth(req)
+            isAdmin(decoded);
+
             const { value: movie } = await _db()
                 .db()
                 .collection("movies")

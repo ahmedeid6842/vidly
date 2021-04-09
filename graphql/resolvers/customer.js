@@ -31,6 +31,10 @@ module.exports = {
     Mutation: {
         //adding customer's Mutation resolvers
         async createCustomer(parent, { data }, { _db, req }) {
+            //check authecication & authorization
+            const decoded = isAuth(req)
+            isAdmin(decoded);
+
             //validate customer input
             const { error } = validateCustomer(data);
             if (error) throw new UserInputError("validattion error", {
@@ -50,8 +54,12 @@ module.exports = {
             }
         },
 
-        async updateCustomer(parent, { customerId, data }, { _db }) {
+        async updateCustomer(parent, { customerId, data }, { _db, req }) {
+            const decoded = isAuth(req)
+            isAdmin(decoded);
+
             //TODO: validate update customer Input 
+            
             //check if there are customer with that Id && if not throw error &&if yes update it 
             const { value: customer } = await _db()
                 .db()
@@ -60,7 +68,10 @@ module.exports = {
             if (!customer) throw new Error("no customer with that id")
             return customer
         },
-        async deleteCustomer(parent, { customerId }, { _db }) {
+        async deleteCustomer(parent, { customerId }, { _db, req }) {
+            const decoded = isAuth(req)
+            isAdmin(decoded);
+
             //check if there are customer with that Id && if not throw error &&if yes delete it 
             const { value: customer } = await _db()
                 .db()
